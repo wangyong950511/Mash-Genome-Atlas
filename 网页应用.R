@@ -1,4 +1,4 @@
-library(sva)
+# library(sva)
 library(ggplot2)
 library(ggpubr)
 library(ggthemes)
@@ -9,6 +9,7 @@ library(babelgene)
 library(patchwork)
 library(myplotColors)
 library(cowplot)
+library(myplotColors)
 
 
 # 函数集合 ----------
@@ -894,7 +895,7 @@ analyze_gene_expression_GSE240729 <- function(GeneX, vsd, colData) {
 }
 
 
-###Fibrosis
+###NAFLD
 # GSE130970
 load("~/R/RNA/data/NASH/GSE130970/Data_GSE130970.RData")
 analyze_gene_expression_GSE130970 <- function(GeneX, vsd, colData, group) {
@@ -1670,6 +1671,8 @@ analyze_gene_expression_GSE225740 <- function(GeneX, vsd, colData, group) {
   return(plot)
 }
 
+
+
 ####NCvsNASH
 # GSE24807
 load("~/R/RNA/data/NASH/GSE24807/Data_GSE24807.RData")
@@ -1712,12 +1715,13 @@ analyze_gene_expression_GSE24807 <- function(GeneX, exprs_matrix, colData) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.position = "right",
-      text = element_text(size = 11)
+      legend.position = "none",
+      text = element_text(size = FIXED_TEXT_SIZE)
     )
   
   return(p)
 }
+
 # GSE37031
 load("~/R/RNA/data/NASH/GSE37031/Data_GSE37031.RData")
 analyze_gene_expression_GSE37031 <- function(GeneX, exprs_matrix, colData) {
@@ -1766,12 +1770,13 @@ analyze_gene_expression_GSE37031 <- function(GeneX, exprs_matrix, colData) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.position = "right",
-      text = element_text(size = 11)
+      legend.position = "none",
+      text = element_text(size = FIXED_TEXT_SIZE)
     )
   
   return(p)
 }
+
 # GSE106737
 load("~/R/RNA/data/NASH/GSE106737/Data_GSE106737.RData")
 analyze_gene_expression_GSE106737 <- function(GeneX, exprs_matrix, colData) {
@@ -1804,7 +1809,7 @@ analyze_gene_expression_GSE106737 <- function(GeneX, exprs_matrix, colData) {
   
   unique_conditions <- levels(gene_df$Condition)
   custom_colors_fill <- setNames(rep("white", length(unique_conditions)), unique_conditions)
-  custom_colors_color <- setNames(rainbow(length(unique_conditions)), unique_conditions)
+  custom_colors_color <- setNames(getplotColors(length(unique_conditions)), unique_conditions)
   
   p <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
     geom_boxplot(outlier.shape = NA) +
@@ -1825,12 +1830,13 @@ analyze_gene_expression_GSE106737 <- function(GeneX, exprs_matrix, colData) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.position = "right",
-      text = element_text(size = 11)
+      legend.position = "none",
+      text = element_text(size = FIXED_TEXT_SIZE)
     )
   
   return(p)
 }
+
 # GSE134146
 load("~/R/RNA/data/NASH/GSE134146/Data_GSE134146.RData")
 analyze_gene_expression_GSE134146 <- function(GeneX, vsd, colData) {
@@ -1847,8 +1853,9 @@ analyze_gene_expression_GSE134146 <- function(GeneX, vsd, colData) {
   gene_df$Condition <- factor(gene_df$Condition, levels = c("NC", "NASH"))
   gene_df <- gene_df[order(gene_df$Condition), ]
   
-  custom_colors_fill <- c("NC" = "white", "NASH" = "white")
-  custom_colors_color <- c("NC" = "#98DF8A", "NASH" = "#FFB347")
+  unique_conditions <- levels(gene_df$Condition)
+  custom_colors_fill <- setNames(rep("white", length(unique_conditions)), unique_conditions)
+  custom_colors_color <- setNames(getplotColors(length(unique_conditions)), unique_conditions)
   
   plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
     geom_boxplot(outlier.shape = NA, aes(color = Condition)) +
@@ -1864,12 +1871,13 @@ analyze_gene_expression_GSE134146 <- function(GeneX, vsd, colData) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.position = "right",
-      text = element_text(size = 11)
+      legend.position = "none",
+      text = element_text(size = FIXED_TEXT_SIZE)
     )
   
   return(plot)
 }
+
 # GSE159676
 load("~/R/RNA/data/NASH/GSE159676/Data_GSE159676.RData")
 analyze_gene_expression_GSE159676 <- function(GeneX, countData, colData) {
@@ -1903,12 +1911,13 @@ analyze_gene_expression_GSE159676 <- function(GeneX, countData, colData) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.position = "right",
-      text = element_text(size = 11)
+      legend.position = "none",
+      text = element_text(size = FIXED_TEXT_SIZE)
     )
   
   return(plot)
 }
+
 # GSE147304
 load("~/R/RNA/data/NASH/GSE147304/Data_GSE147304.RData")
 analyze_gene_expression_GSE147304 <- function(GeneX, vsd, colData) {
@@ -1925,8 +1934,9 @@ analyze_gene_expression_GSE147304 <- function(GeneX, vsd, colData) {
   gene_df$Condition <- factor(gene_df$Condition, levels = c("NC", "NASH"))
   gene_df <- gene_df[order(gene_df$Condition), ]
   
-  custom_colors_fill <- c("NC" = "white", "NASH" = "white")
-  custom_colors_color <- c("NC" = "#98DF8A", "NASH" = "#FFB347")
+  unique_conditions <- levels(gene_df$Condition)
+  custom_colors_fill <- setNames(rep("white", length(unique_conditions)), unique_conditions)
+  custom_colors_color <- setNames(getplotColors(length(unique_conditions)), unique_conditions)
   
   plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
     geom_boxplot(outlier.shape = NA, aes(color = Condition)) +
@@ -1942,13 +1952,14 @@ analyze_gene_expression_GSE147304 <- function(GeneX, vsd, colData) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.position = "right",
-      text = element_text(size = 11)
+      legend.position = "none",
+      text = element_text(size = FIXED_TEXT_SIZE)
     )
   
   return(plot)
 }
-# GSE147304
+
+# GSE173735
 load("~/R/RNA/data/NASH/GSE173735/Data_GSE173735.RData")
 analyze_gene_expression_GSE173735 <- function(GeneX, vsd, colData) {
   if (!(GeneX %in% rownames(vsd))) {
@@ -1964,8 +1975,9 @@ analyze_gene_expression_GSE173735 <- function(GeneX, vsd, colData) {
   gene_df$Condition <- factor(gene_df$Condition, levels = c("NC", "NASH"))
   gene_df <- gene_df[order(gene_df$Condition), ]
   
-  custom_colors_fill <- c("NC" = "white", "NASH" = "white")
-  custom_colors_color <- c("NC" = "#98DF8A", "NASH" = "#FFB347")
+  unique_conditions <- levels(gene_df$Condition)
+  custom_colors_fill <- setNames(rep("white", length(unique_conditions)), unique_conditions)
+  custom_colors_color <- setNames(getplotColors(length(unique_conditions)), unique_conditions)
   
   plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
     geom_boxplot(outlier.shape = NA, aes(color = Condition)) +
@@ -1981,12 +1993,1116 @@ analyze_gene_expression_GSE173735 <- function(GeneX, vsd, colData) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.position = "right",
-      text = element_text(size = 11)
+      legend.position = "none",
+      text = element_text(size = FIXED_TEXT_SIZE)
     )
   
   return(plot)
 }
+
+# GSE63067
+load("~/R/RNA/data/NASH/GSE63067/Data_GSE63067.RData")
+analyze_gene_expression_GSE63067 <- function(GeneX, exprs_matrix, colData) {
+  # 固定分组变量名称
+  group_var <- "condition"
+  
+  # Step 1: 检查目标基因是否存在于表达矩阵中
+  if (!(GeneX %in% rownames(exprs_matrix))) {
+    stop(paste("目标基因", GeneX, "不存在于表达矩阵中，请检查数据是否包含该基因。"))
+  }
+  
+  # Step 2: 检查分组变量是否存在于 colData 中
+  if (!(group_var %in% colnames(colData))) {
+    stop(paste("指定的分组变量", group_var, "不存在于 colData 中，请检查。"))
+  }
+  
+  # Step 3: 提取目标基因表达数据
+  gene_expression <- exprs_matrix[GeneX, ]
+  gene_df <- data.frame(
+    Expression = as.numeric(gene_expression),
+    Sample     = names(gene_expression),
+    Condition  = colData[[group_var]]
+  )
+  
+  # Step 4: 保留所有组，不过滤（以便绘图显示3组）
+  # Step 5: 固定分组顺序：这里设定顺序为 "NC", "NASH", "Obese"
+  group_order <- c("NC", "Obese", "NASH")
+  gene_df$Condition <- factor(gene_df$Condition, levels = group_order)
+  
+  # Step 6: 统计比较：仅比较 "NC" 与 "NASH"
+  if (all(c("NC", "NASH") %in% gene_df$Condition)) {
+    comparisons_list <- list(c("NC", "NASH"))
+  } else {
+    comparisons_list <- list()
+    warning("NC 和 NASH 组中有一组样本数不足，无法进行统计检验，仅显示箱线图。")
+  }
+  
+  # Step 7: 设置颜色映射  
+  # 填充色统一为白色；边框颜色使用全局函数 myplotColors 返回的颜色集合
+  custom_colors_fill <- setNames(rep("white", length(group_order)), group_order)
+  custom_colors_color <- setNames(getplotColors(length(group_order)), group_order)
+  
+  # Step 8: 绘制箱线图
+  p <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
+    geom_boxplot(outlier.shape = NA) +
+    scale_fill_manual(values = custom_colors_fill) +
+    scale_color_manual(values = custom_colors_color)
+  
+  # Step 9: 添加统计检验（仅对 NC 与 NASH 进行 t 检验）
+  if (length(comparisons_list) > 0) {
+    p <- p + stat_compare_means(
+      comparisons = comparisons_list,
+      method = "t.test",
+      label = "p.signif"
+    )
+  }
+  
+  # Step 10: 添加标题和主题
+  p <- p + labs(
+    title = paste("GSE63067"),
+    x = group_var,
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(p)
+}
+
+# GSE61260
+load("~/R/RNA/data/NASH/GSE61260/Data_GSE61260.RData")
+analyze_gene_expression_GSE61260 <- function(GeneX, vsd, colData) {
+  # Step 1: 检查基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- vsd[GeneX, ]
+  gene_df <- data.frame(
+    Expression = as.numeric(gene_expression),
+    Condition = colData$condition
+  )
+  
+  # Step 3: 仅保留 NC, Obese, NAFLD, NASH
+  valid_conditions <- c("NC", "Obese", "NAFLD", "NASH")
+  gene_df <- subset(gene_df, Condition %in% valid_conditions)
+  
+  # Step 4: 设置 Condition 因子顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = valid_conditions)
+  
+  # Step 5: 统计学比较（NC 作为基准）
+  comparisons_list <- list(
+    c("NC", "Obese"),
+    c("NC", "NAFLD"),
+    c("NC", "NASH")
+  )
+  
+  # Step 6: 自定义颜色
+  custom_colors_fill <- c("NC" = "white", "Obese" = "white", "NAFLD" = "white", "NASH" = "white")
+  custom_colors_color <- setNames(getplotColors(length(valid_conditions)), valid_conditions)
+  
+  # Step 7: 绘制箱线图
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) +  
+    scale_fill_manual(values = custom_colors_fill) +  
+    scale_color_manual(values = custom_colors_color) +  
+    stat_compare_means(comparisons = comparisons_list,
+                       method = "t.test",
+                       label = "p.signif") +  
+    labs(
+      title = paste("GSE61260"),
+      x = "Condition",
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE66676/Data_GSE66676.RData")
+analyze_gene_expression_GSE66676 <- function(GeneX, vsd, colData) {
+  # Step 1: 检查基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- vsd[GeneX, ]  # vsd 现在是数据框
+  gene_df <- data.frame(
+    Expression = as.numeric(gene_expression),
+    Condition = colData$condition
+  )
+  
+  # Step 3: 设置 Condition 因子顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = c("NC", "NAFLD", "Borderline_NASH", "Definite_NASH"))
+  
+  # 按 Condition 因子水平排序数据框
+  gene_df <- gene_df[order(gene_df$Condition), ]
+  
+  # Step 4: 自定义颜色
+  custom_colors_fill <- c("NC" = "white", "NAFLD" = "white", "Borderline_NASH" = "white", "Definite_NASH" = "white")
+  custom_colors_color <- getplotColors(length(levels(gene_df$Condition)))
+  # Step 5: 绘制箱线图
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) +  # 边框颜色根据 Condition 设置
+    scale_fill_manual(values = custom_colors_fill) +  # 自定义填充颜色
+    scale_color_manual(values = custom_colors_color) +  # 自定义边框颜色
+    stat_compare_means(comparisons = list(c("NC", "NAFLD"), 
+                                          c("NC", "Borderline_NASH"),
+                                          c("NC", "Definite_NASH")),
+                       method = "t.test",
+                       label = "p.signif") + # 两两比较，显示显著性标记
+    labs(
+      title = paste("GSE66676"),
+      x = "Condition",
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
+#
+load("~/R/RNA/data/NASH/GSE89632/Data_GSE89632.RData")
+analyze_gene_expression_GSE89632 <- function(GeneX, norm_data, colData, group) {
+  # Step 1: 检查并匹配目标基因在 norm_data$genes$Symbol 中
+  if (!("genes" %in% names(norm_data))) {
+    stop("norm_data 对象中没有 'genes' 信息。")
+  }
+  if (!("Symbol" %in% colnames(norm_data$genes))) {
+    stop("norm_data$genes 中不包含 'Symbol' 列。")
+  }
+  idx <- which(norm_data$genes$Symbol == GeneX)
+  if (length(idx) == 0) {
+    stop(paste("目标基因", GeneX, "在 norm_data$genes$Symbol 中未找到。"))
+  }
+  # 如果有多个匹配，则取第一个（也可以根据需要修改策略）
+  gene_expression <- norm_data$E[idx[1], ]
+  
+  # Step 2: 检查分组变量是否存在于 colData 中
+  if (!(group %in% colnames(colData))) {
+    stop("指定的分组变量不存在，请检查是否为 'condition', 'fibrosis' 或 'nafld'。")
+  }
+  
+  # Step 3: 构建绘图数据框，提取目标基因表达和对应分组信息
+  gene_df <- data.frame(Expression = gene_expression,
+                        Condition  = colData[[group]])
+  
+  # 筛除 Condition 列中为 NA 或字符串 "NA" 的样本
+  gene_df <- subset(gene_df, !is.na(Condition) & Condition != "NA")
+  
+  # Step 4: 根据不同分组设定固定的分组顺序（所有组都显示）
+  group_order <- switch(group,
+                        "condition" = c("NC", "Obese", "NASH"),
+                        "fibrosis"  = c("fibrosis_0", "fibrosis_1", "fibrosis_2", "fibrosis_3", "fibrosis_4", "NA"),
+                        "nafld"     = c("nafld_0", "nafld_1", "nafld_2", "nafld_3", "nafld_4", "nafld_5", "nafld_6", "nafld_8", "NA"),
+                        unique(gene_df$Condition)  # 默认按原顺序
+  )
+  gene_df$Condition <- factor(gene_df$Condition, levels = group_order)
+  
+  # Step 5: 计算各组样本数量，并确定可以进行统计检验的组（样本数 >= 2）
+  group_counts <- table(gene_df$Condition)
+  valid_groups <- names(group_counts[group_counts >= 2])
+  
+  # Step 6: 自动生成 comparisons 列表，仅比较有效组中第一个分组与其他分组
+  if (length(valid_groups) > 1) {
+    comparisons_list <- lapply(valid_groups[-1], function(x) c(valid_groups[1], x))
+  } else {
+    comparisons_list <- list()
+    warning("没有足够的样本进行统计检验，仅显示箱线图。")
+  }
+  
+  # Step 7: 设置颜色映射
+  # 填充色设为白色，边框颜色采用 myplotColors 函数生成的调色板
+  custom_colors_fill <- setNames(rep("white", length(group_order)), group_order)
+  custom_colors_color <- setNames(getplotColors(length(group_order)), group_order)
+  
+  # Step 8: 绘制箱线图
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
+    geom_boxplot(outlier.shape = NA) +
+    scale_fill_manual(values = custom_colors_fill) +
+    scale_color_manual(values = custom_colors_color)
+  
+  # Step 9: 添加统计检验（仅在有效组数 >= 2 时）
+  if (length(comparisons_list) > 0) {
+    plot <- plot + stat_compare_means(comparisons = comparisons_list,
+                                      method = "t.test",
+                                      label = "p.signif")
+  }
+  
+  # Step 10: 添加标题和图形主题
+  plot <- plot + labs(
+    title = paste("GSE89632"),
+    x = group,
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE48452/Data_GSE48452.RData")
+analyze_gene_expression_GSE48452 <- function(GeneX, expr_data, meta_data, group) {
+  # Step 1: 确保基因存在
+  if (!(GeneX %in% rownames(expr_data))) {
+    stop(paste("目标基因", GeneX, "不存在于表达矩阵中，请检查数据。"))
+  }
+  
+  # Step 2: 提取目标基因的表达数据
+  gene_expression <- expr_data[GeneX, ]
+  
+  # Step 3: 确保分组变量存在
+  if (!(group %in% colnames(meta_data))) {
+    stop(paste("分组变量", group, "不存在，请检查。"))
+  }
+  
+  # Step 4: 创建数据框
+  gene_df <- data.frame(
+    Expression = as.numeric(gene_expression),
+    Condition  = meta_data[[group]]
+  )
+  
+  # Step 5: 移除 NA 值
+  gene_df <- subset(gene_df, !is.na(Condition) & Condition != "fibrosis_NA")
+  
+  # Step 6: 设定分组顺序
+  group_order <- switch(group,
+                        "condition" = c("NC", "Obese", "Steatosis", "NASH"),
+                        "fibrosis"  = c("fibrosis_0", "fibrosis_1", "fibrosis_2", "fibrosis_3", "fibrosis_4"),
+                        "nas"       = c("nas_0", "nas_1", "nas_2", "nas_3", "nas_4", "nas_5", "nas_6", "nas_7"),
+                        unique(gene_df$Condition))  # 默认按数据顺序
+  
+  gene_df$Condition <- factor(gene_df$Condition, levels = group_order)
+  
+  # Step 7: 统计学比较（基准为分组的第一个）
+  group_counts <- table(gene_df$Condition)
+  valid_groups <- names(group_counts[group_counts >= 2])
+  
+  if (length(valid_groups) > 1) {
+    comparisons_list <- lapply(valid_groups[-1], function(x) c(valid_groups[1], x))
+  } else {
+    comparisons_list <- list()
+    warning("没有足够的样本进行统计检验，仅显示箱线图。")
+  }
+  
+  # Step 8: 设置颜色映射
+  custom_colors_fill <- setNames(rep("white", length(group_order)), group_order)
+  custom_colors_color <- setNames(getplotColors(length(group_order)), group_order)
+  
+  # Step 9: 绘制箱线图
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
+    geom_boxplot(outlier.shape = NA) +
+    # geom_jitter(width = 0.2, size = 1, alpha = 0.6)+
+    scale_fill_manual(values = custom_colors_fill) +
+    scale_color_manual(values = custom_colors_color)
+  
+  # Step 10: 添加统计检验（仅在有效组数 >= 2 时）
+  if (length(comparisons_list) > 0) {
+    plot <- plot + stat_compare_means(comparisons = comparisons_list,
+                                      method = "t.test",
+                                      label = "p.signif")
+  }
+  
+  # Step 11: 添加标题和图形主题
+  plot <- plot + labs(
+    title = paste("GSE89632"),
+    x = group,
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE83452/Data_GSE83452.RData")
+analyze_gene_expression_GSE83452 <- function(GeneX,  exprs_matrix, colData  ) {
+  # 固定分组变量
+  group_var <- "condition"
+  
+  # Step 1: 检查目标基因是否存在
+  if (!(GeneX %in% rownames(exprs_matrix))) {
+    stop(paste("目标基因", GeneX, "不存在于表达矩阵中，请检查数据是否包含该基因。"))
+  }
+  
+  # Step 2: 检查分组变量是否存在
+  if (!(group_var %in% colnames(colData))) {
+    stop(paste("指定的分组变量", group_var, "不存在于 colData 中，请检查。"))
+  }
+  
+  # Step 3: 提取目标基因表达
+  gene_expression <- exprs_matrix[GeneX, ]
+  
+  # 构建绘图数据框
+  gene_df <- data.frame(
+    Expression = as.numeric(gene_expression),
+    Sample     = names(gene_expression),
+    Condition  = colData[[group_var]]
+  )
+  
+  # Step 4: 过滤掉 undefined 组
+  valid_conditions <- c("NC_baseline", "NASH_baseline")
+  gene_df <- subset(gene_df, Condition %in% valid_conditions)
+  
+  # Step 5: 固定分组顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = valid_conditions)
+  
+  # Step 6: 统计各组样本数
+  group_counts <- table(gene_df$Condition)
+  
+  # 仅保留样本数 >= 2 的组用于统计检验
+  valid_groups <- names(group_counts[group_counts >= 2])
+  
+  # Step 7: comparisons 列表（基于 `valid_groups`）
+  comparisons_list <- list(c("NC_baseline", "NASH_baseline"))
+  
+  # Step 8: 自定义颜色
+  custom_colors_fill <- c("NC_baseline" = "white", "NASH_baseline" = "white")
+  custom_colors_color <- setNames(getplotColors(length(valid_conditions)), valid_conditions)
+  
+  # Step 9: 绘制箱线图
+  p <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
+    geom_boxplot(outlier.shape = NA) +
+    scale_fill_manual(values = custom_colors_fill) +
+    scale_color_manual(values = custom_colors_color)
+  
+  # Step 10: 统计检验
+  if (length(comparisons_list) > 0) {
+    p <- p + stat_compare_means(
+      comparisons = comparisons_list,
+      method = "t.test",
+      label = "p.signif"
+    )
+  } else {
+    warning("没有足够的组或有效组小于2个，无法进行统计检验。仅显示箱线图。")
+  }
+  
+  # Step 11: 添加标题和主题
+  p <- p + labs(
+    title = paste("GSE83452"),
+    x = "Condition",
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(p)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE105127/Data_GSE105127.RData")
+analyze_gene_expression_GSE105127 <- function(GeneX, vsd, colData) {
+  # Step 1: 检查基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(
+    Expression = gene_expression,
+    Condition = colData$condition
+  )
+  
+  # Step 3: 设置 Condition 的因子顺序
+  # 按分组名称排序（CV -> IZ -> PP，NC -> STEA -> HO -> EARLY_NASH）
+  condition_levels <- c(
+    "CV_NC", "CV_STEA", "CV_HO", "CV_EARLY_NASH",
+    "IZ_NC", "IZ_STEA", "IZ_HO", "IZ_EARLY_NASH",
+    "PP_NC", "PP_STEA", "PP_HO", "PP_EARLY_NASH"
+  )
+  gene_df$Condition <- factor(gene_df$Condition, levels = condition_levels)
+  
+  # Step 4: 按 Condition 因子水平排序数据框
+  gene_df <- gene_df[order(gene_df$Condition), ]
+  
+  # Step 5: 定义颜色
+  # 按分组前缀（CV/IZ/PP）和后缀（NC/STEA/HO/EARLY_NASH）定义颜色
+  custom_colors_fill <- c(
+    "CV_NC" = "#FFFFFF", "CV_STEA" = "#FFFFFF", "CV_HO" = "#FFFFFF", "CV_EARLY_NASH" = "#FFFFFF",
+    "IZ_NC" = "#FFFFFF", "IZ_STEA" = "#FFFFFF", "IZ_HO" = "#FFFFFF", "IZ_EARLY_NASH" = "#FFFFFF",
+    "PP_NC" = "#FFFFFF", "PP_STEA" = "#FFFFFF", "PP_HO" = "#FFFFFF", "PP_EARLY_NASH" = "#FFFFFF"
+  )
+  
+  custom_colors_color <- c(
+    "CV_NC" = "#2ca02c", "CV_STEA" = "#ff7f0e", "CV_HO" = "#d62728", "CV_EARLY_NASH" = "#9467bd",
+    "IZ_NC" = "#2ca02c", "IZ_STEA" = "#ff7f0e", "IZ_HO" = "#d62728", "IZ_EARLY_NASH" = "#9467bd",
+    "PP_NC" = "#2ca02c", "PP_STEA" = "#ff7f0e", "PP_HO" = "#d62728", "PP_EARLY_NASH" = "#9467bd"
+  )
+  
+  # Step 6: 绘制箱线图
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) +  # 边框颜色根据 Condition 设置
+    scale_fill_manual(values = custom_colors_fill) +  # 自定义填充颜色
+    scale_color_manual(values = custom_colors_color) +  # 自定义边框颜色
+    stat_compare_means(
+      comparisons = list(
+        c("CV_NC", "CV_STEA"), c("CV_NC", "CV_HO"), c("CV_NC", "CV_EARLY_NASH"),
+        c("IZ_NC", "IZ_STEA"), c("IZ_NC", "IZ_HO"), c("IZ_NC", "IZ_EARLY_NASH"),
+        c("PP_NC", "PP_STEA"), c("PP_NC", "PP_HO"), c("PP_NC", "PP_EARLY_NASH")
+      ),
+      method = "t.test",
+      label = "p.signif"
+    ) + # 两两比较，显示显著性标记
+    labs(
+      title = paste("GSE105127"),
+      x = "Condition",
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE115193/Data_GSE115193.RData")
+analyze_gene_expression_GSE115193 <- function(GeneX, vsd, colData) {
+  # Step 1: 检查基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(
+    Expression = gene_expression,
+    Condition = colData$condition
+  )
+  
+  # Step 3: 设置 Condition 的因子顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = c("NC", "NAFLD", "NASH"))
+  
+  # 按 Condition 因子水平排序数据框
+  gene_df <- gene_df[order(gene_df$Condition), ]
+  
+  # Step 4: 绘制箱线图
+  custom_colors_fill <- c("NC" = "white", "NAFLD" = "white", "NASH" = "white")
+  custom_colors_color <- c("NC" = "#2ca02c", "NAFLD" = "#ff7f0e", "NASH" = "#d62728")
+  
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) +  # 边框颜色根据 Condition 设置
+    scale_fill_manual(values = custom_colors_fill) +  # 自定义填充颜色
+    scale_color_manual(values = custom_colors_color) +  # 自定义边框颜色
+    stat_compare_means(comparisons = list(c("NC", "NAFLD"), 
+                                          c("NC", "NASH"), 
+                                          c("NASH", "NAFLD")),
+                       method = "t.test",
+                       label = "p.signif") + # 两两比较，显示显著性标记
+    labs(
+      title = paste("GSE115193"),
+      x = "Condition",
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE126848/Data_GSE126848.RData")
+analyze_gene_expression_GSE126848 <- function(GeneX, vsd, colData) {
+  # Step 1: 检查基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(
+    Expression = gene_expression,
+    Condition = colData$condition
+  )
+  
+  # Step 3: 设置 Condition 的因子顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = c("NC", "Obese", "NAFLD", "NASH"))
+  
+  # 按 Condition 因子水平排序数据框
+  gene_df <- gene_df[order(gene_df$Condition), ]
+  
+  # Step 4: 绘制箱线图
+  custom_colors_fill <- c("NC" = "white", "Obese" = "white", "NAFLD" = "white", "NASH" = "white")
+  custom_colors_color <- c("NC" = "#2ca02c", "Obese" = "#FFC07C", "NAFLD" = "#ff7f0e", "NASH" = "#d62728")
+  
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) +  # 边框颜色根据 Condition 设置
+    scale_fill_manual(values = custom_colors_fill) +  # 自定义填充颜色
+    scale_color_manual(values = custom_colors_color) +  # 自定义边框颜色
+    stat_compare_means(comparisons = list(c("NC", "Obese"), 
+                                          c("NC", "NAFLD"), 
+                                          c("NC", "NASH"), 
+                                          c("Obese", "NASH"), 
+                                          c("Obese", "NAFLD"), 
+                                          c("NASH", "NAFLD")),
+                       method = "t.test",
+                       label = "p.signif") + # 两两比较，显示显著性标记
+    labs(
+      title = paste("GSE126848"),
+      x = "Condition",
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE135251/Data_GSE135251.RData")
+analyze_gene_expression_GSE135251 <- function(GeneX, vsd, colData, group) {
+  # Step 1: 检查基因是否存在
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 检查分组变量是否存在
+  if (!(group %in% colnames(colData))) {
+    stop("指定的分组变量不存在，请检查是否为 'nas', 'fibrosis' 或 'steatohep'。")
+  }
+  
+  # Step 3: 提取目标基因的表达数据
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(Expression = gene_expression, Condition = colData[[group]])
+  
+  
+  # Step 5: 设定分组顺序
+  group_order <- switch(group,
+                        "nas" = c("nas_0", "nas_1", "nas_2", "nas_3", "nas_4", "nas_5", "nas_6", "nas_7", "nas_8"),
+                        "fibrosis" = c("fibrosis_0", "fibrosis_1", "fibrosis_2", "fibrosis_3", "fibrosis_4"),
+                        "level" = c("NC", "NAFL", "NASH"),
+                        unique(gene_df$Condition))  # 默认按原顺序
+  
+  # 确保分组顺序只包含数据中的分组
+  group_order <- intersect(group_order, unique(gene_df$Condition))
+  gene_df$Condition <- factor(gene_df$Condition, levels = group_order)
+  gene_df <- gene_df[order(gene_df$Condition), ]
+  
+  # Step 6: **自动生成 comparisons**
+  condition_levels <- levels(gene_df$Condition)
+  comparisons_list <- lapply(condition_levels[-1], function(x) c(condition_levels[1], x))
+  
+  # Step 7: 颜色映射
+  custom_colors_fill <- setNames(rep("white", length(unique(gene_df$Condition))), unique(gene_df$Condition))
+  custom_colors_color <- setNames(getplotColors(length(unique(gene_df$Condition))), unique(gene_df$Condition))
+  
+  # Step 8: 绘制箱线图
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) + 
+    scale_fill_manual(values = custom_colors_fill) + 
+    scale_color_manual(values = custom_colors_color) + 
+    stat_compare_means(comparisons = comparisons_list, method = "t.test", label = "p.signif") +  # 统计显著性
+    labs(
+      title = paste("GSE135251"),
+      x = group,
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE164760/Data_GSE164760.RData")
+analyze_gene_expression_GSE164760 <- function(GeneX,exprs_matrix, colData ) {
+  # 固定分组变量
+  group_var <- "level"
+  
+  # Step 1: 检查目标基因是否存在
+  if (!(GeneX %in% rownames(exprs_matrix))) {
+    stop(paste("目标基因", GeneX, "不存在于表达矩阵中，请检查数据是否包含该基因。"))
+  }
+  
+  # Step 2: 检查分组变量是否存在
+  if (!(group_var %in% colnames(colData))) {
+    stop(paste("指定的分组变量", group_var, "不存在于 colData 中，请检查。"))
+  }
+  
+  # Step 3: 提取目标基因表达
+  gene_expression <- exprs_matrix[GeneX, ]
+  
+  # 构建绘图数据框
+  gene_df <- data.frame(
+    Expression = as.numeric(gene_expression),
+    Sample     = names(gene_expression),
+    Condition  = colData[[group_var]]
+  )
+  
+  # Step 4: 如果需要固定分组顺序（自行修改）
+  default_group_order <- c("Healthy", "NASH", "Cirrhotic", "NASH_HCC_notumor", "NASH_HCC_tumor")
+  gene_df$Condition <- factor(gene_df$Condition, levels = default_group_order)
+  
+  # Step 5: 统计各组样本数
+  group_counts <- table(gene_df$Condition)
+  
+  # 仅保留样本数 >= 2 的组用于统计检验
+  valid_groups <- names(group_counts[group_counts >= 2])
+  
+  # Step 6: comparisons 列表
+  # 使用 combn() 对所有有效组进行两两比较
+  if (length(valid_groups) > 1) {
+    comparisons_list <- combn(valid_groups, 2, simplify = FALSE)
+  } else {
+    comparisons_list <- list()
+  }
+  
+  # Step 7: 自定义颜色
+  unique_conditions <- levels(gene_df$Condition)
+  custom_colors_fill <- setNames(rep("white", length(unique_conditions)), unique_conditions)
+  custom_colors_color <- setNames(getplotColors(length(unique_conditions)), unique_conditions)
+  
+  # Step 8: 绘制箱线图
+  p <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
+    geom_boxplot(outlier.shape = NA) +
+    # geom_jitter(width = 0.2, alpha = 0.7) +
+    scale_fill_manual(values = custom_colors_fill) +
+    scale_color_manual(values = custom_colors_color)
+  
+  # Step 9: 统计检验
+  if (length(comparisons_list) > 0) {
+    p <- p + stat_compare_means(
+      comparisons = comparisons_list,
+      method = "t.test",
+      label = "p.signif"
+    )
+  } else {
+    warning("没有足够的组或有效组小于2个，无法进行统计检验。仅显示箱线图。")
+  }
+  
+  # Step 10: 添加标题和主题
+  p <- p + labs(
+    title = paste("GSE164760"),
+    x = group_var,
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(p)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE167523/Data_GSE167523.RData")
+analyze_gene_expression_GSE167523 <- function(GeneX, vsd, colData) {
+  # Step 1: 检查目标基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因未找到，请检查基因名是否正确或是否存在于表达矩阵中。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- assay(vsd)[GeneX, ]  # 使用 assay() 提取表达矩阵
+  gene_df <- data.frame(
+    Expression = gene_expression,
+    Condition = colData$level  # 使用 level 列作为分组信息
+  )
+  
+  # Step 3: 设置 Condition 的因子顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = c("NAFL", "NASH"))
+  
+  # 按 Condition 因子水平排序数据框
+  gene_df <- gene_df[order(gene_df$Condition), ]
+  
+  # Step 4: 绘制箱线图
+  unique_conditions <- levels(gene_df$Condition)
+  custom_colors_fill <- setNames(rep("white", length(unique_conditions)), unique_conditions)
+  custom_colors_color <- setNames(getplotColors(length(unique_conditions)), unique_conditions)
+  
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition), width = 0.6) +  # 设置箱线图宽度
+    # geom_jitter(width = 0.2, size = 1.5, alpha = 0.6, aes(color = Condition)) +  # 添加散点
+    scale_fill_manual(values = custom_colors_fill) +  # 自定义填充颜色
+    scale_color_manual(values = custom_colors_color) +  # 自定义边框和散点颜色
+    stat_compare_means(
+      comparisons = list(c("NAFL", "NASH")), 
+      method = "t.test",  # 使用 t 检验
+      label = "p.signif",  # 显示显著性标记
+      label.y = max(gene_df$Expression) * 1.1  # 将显著性标记放在图的上方
+    ) +
+    labs(
+      title = paste("GSE167523"),
+      x = "Condition",
+      y = "Expression Level (VST)"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),  # 调整 x 轴标签
+      plot.title = element_text(hjust = 0.5),  # 调整标题
+      legend.position = "none"  # 移除图例
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE185051/Data_GSE185051.RData")
+analyze_gene_expression_GSE185051 <- function(GeneX, vsd, colData, group) {
+  # Step 1: 检查基因是否存在
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 检查分组变量是否存在
+  if (!(group %in% colnames(colData))) {
+    stop("指定的分组变量不存在，请检查是否为 'nas', 'fibrosis' 或 'level'。")
+  }
+  
+  # Step 3: 提取目标基因的表达数据
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(Expression = gene_expression, Condition = colData[[group]])
+  
+  # Step 4: 设定分组顺序（所有组都要显示）
+  group_order <- switch(group,
+                        "nas" = c("nas_0", "nas_1", "nas_2", "nas_3", "nas_4", "nas_5", "nas_6", "nas_7"),
+                        "fibrosis" = c("fibrosis_0", "fibrosis_1", "fibrosis_2", "fibrosis_3"),
+                        "level" = c("Normal", "Steatosis", "Borderline", "NASH"),
+                        unique(gene_df$Condition))  # 默认按原顺序
+  
+  # 确保所有组都显示，即使某些组样本数 <2
+  gene_df$Condition <- factor(gene_df$Condition, levels = group_order)
+  
+  # Step 5: 计算每个组的样本数量
+  group_counts <- table(gene_df$Condition)
+  
+  # 确定可以进行统计检验的组（样本数 >= 2）
+  valid_groups <- names(group_counts[group_counts >= 2])
+  
+  # Step 6: **自动生成 comparisons（仅比较有效组）**
+  condition_levels <- levels(gene_df$Condition)
+  if (length(valid_groups) > 1) {
+    comparisons_list <- lapply(valid_groups[-1], function(x) c(valid_groups[1], x))
+  } else {
+    comparisons_list <- list()  # 避免只有一个分组时报错
+  }
+  
+  # Step 7: 颜色映射
+  custom_colors_fill <- setNames(rep("white", length(group_order)), group_order)
+  custom_colors_color <- setNames(getplotColors(length(group_order)), group_order)
+  
+  # Step 8: **绘制箱线图（所有组都要显示）**
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) + 
+    scale_fill_manual(values = custom_colors_fill) + 
+    scale_color_manual(values = custom_colors_color) 
+  
+  # **仅在组数 >=2 且样本足够时进行统计检验**
+  if (length(valid_groups) > 1) {
+    plot <- plot + stat_compare_means(comparisons = comparisons_list, method = "t.test", label = "p.signif")
+  } else {
+    warning("没有足够的样本进行统计检验，仅显示所有组")
+  }
+  
+  # 添加标题
+  plot <- plot + labs(
+    title = paste("GSE185051"),
+    x = group,
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(plot)
+}
+
+# 加载数据
+load("~/R/RNA/data/NASH/GSE207310/Data_GSE207310.RData")
+analyze_gene_expression_GSE207310 <- function(GeneX, vsd, colData, group) {
+  # Step 1: 检查基因是否存在
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 检查分组变量是否存在
+  if (!(group %in% colnames(colData))) {
+    stop("指定的分组变量不存在，请检查是否为 'nafld', 'fibrosis' 或 'level'。")
+  }
+  
+  # Step 3: 提取目标基因的表达数据
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(Expression = gene_expression, Condition = colData[[group]])
+  
+  # Step 4: 设定分组顺序（所有组都要显示）
+  group_order <- switch(group,
+                        "nafld" = c("nafld_0", "nafld_1", "nafld_2", "nafld_3", "nafld_4", "nafld_5", "nafld_7", "nafld_8"),
+                        "fibrosis" = c("fibrosis_0", "fibrosis_1", "fibrosis_1A", "fibrosis_1B", "fibrosis_2", "fibrosis_3"),
+                        "level" = c("NC", "NAFL", "NASH"),
+                        unique(gene_df$Condition))  # 默认按原顺序
+  
+  # **确保所有组都显示，即使某些组样本数 <2**
+  gene_df$Condition <- factor(gene_df$Condition, levels = group_order)
+  
+  # Step 5: 计算每个组的样本数量
+  group_counts <- table(gene_df$Condition)
+  
+  # **确定可以进行统计检验的组（样本数 >= 2）**
+  valid_groups <- names(group_counts[group_counts >= 2])
+  
+  # Step 6: **自动生成 comparisons（仅比较有效组）**
+  condition_levels <- levels(gene_df$Condition)
+  if (length(valid_groups) > 1) {
+    comparisons_list <- lapply(valid_groups[-1], function(x) c(valid_groups[1], x))
+  } else {
+    comparisons_list <- list()  # 避免只有一个分组时报错
+  }
+  
+  # Step 7: 颜色映射
+  custom_colors_fill <- setNames(rep("white", length(group_order)), group_order)
+  custom_colors_color <- setNames(getplotColors(length(group_order)), group_order)
+  
+  # Step 8: **绘制箱线图（所有组都要显示）**
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) + 
+    scale_fill_manual(values = custom_colors_fill) + 
+    scale_color_manual(values = custom_colors_color) 
+  
+  # **仅在组数 >=2 且样本足够时进行统计检验**
+  if (length(valid_groups) > 1) {
+    plot <- plot + stat_compare_means(comparisons = comparisons_list, method = "t.test", label = "p.signif")
+  } else {
+    warning("没有足够的样本进行统计检验，仅显示所有组")
+  }
+  
+  # 添加标题
+  plot <- plot + labs(
+    title = paste("GSE207310"),
+    x = group,
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(plot)
+}
+
+# 加载数据
+load("~/R/RNA/data/NASH/GSE260666/Data_GSE260666.RData")
+analyze_gene_expression_GSE260666 <- function(GeneX, vsd, colData) {
+  # Step 1: 检查基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(
+    Expression = gene_expression,
+    Condition = colData$condition
+  )
+  
+  # Step 3: 设置 Condition 的因子顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = c("NC", "NAFLD", "NASH"))
+  
+  # 按 Condition 因子水平排序数据框
+  gene_df <- gene_df[order(gene_df$Condition), ]
+  
+  # Step 4: 绘制箱线图
+  custom_colors_fill <- c("NC" = "white", "NAFLD" = "white", "NASH" = "white")
+  custom_colors_color <- c("NC" = "#2ca02c", "NAFLD" = "#ff7f0e", "NASH" = "#d62728")
+  
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) +  # 边框颜色根据 Condition 设置
+    scale_fill_manual(values = custom_colors_fill) +  # 自定义填充颜色
+    scale_color_manual(values = custom_colors_color) +  # 自定义边框颜色
+    stat_compare_means(comparisons = list(c("NC", "NAFLD"), 
+                                          c("NC", "NASH"), 
+                                          c("NASH", "NAFLD")),
+                       method = "t.test",
+                       label = "p.signif") + # 两两比较，显示显著性标记
+    labs(
+      title = paste("GSE260666"),
+      x = "Condition",
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
+#
+load("~/R/RNA/data/NASH/GSE274114/Data_GSE274114.RData")
+analyze_gene_expression_GSE274114 <- function(GeneX, vsd_object, colData) {
+  # 固定分组变量名称
+  group_var <- "condition"
+  
+  # Step 1: 检查目标基因是否存在于表达矩阵中
+  # 从 S4 对象中提取表达矩阵
+  if (is(vsd_object, "DESeqTransform") || is(vsd_object, "SummarizedExperiment")) {
+    exprs_matrix <- assay(vsd_object)  # 提取表达矩阵
+  } else {
+    stop("输入的表达数据必须是 DESeqTransform 或 SummarizedExperiment 对象。")
+  }
+  
+  if (!(GeneX %in% rownames(exprs_matrix))) {
+    stop(paste("目标基因", GeneX, "不存在于表达矩阵中，请检查数据是否包含该基因。"))
+  }
+  
+  # Step 2: 检查分组变量是否存在于 colData 中
+  if (!(group_var %in% colnames(colData))) {
+    stop(paste("指定的分组变量", group_var, "不存在于 colData 中，请检查。"))
+  }
+  
+  # Step 3: 提取目标基因表达数据
+  gene_expression <- exprs_matrix[GeneX, ]
+  gene_df <- data.frame(
+    Expression = as.numeric(gene_expression),
+    Sample     = names(gene_expression),
+    Condition  = colData[[group_var]]
+  )
+  
+  # Step 4: 保留所有组，不过滤（以便绘图显示4组）
+  # 修改点：按照数据实际因子顺序设置分组顺序
+  group_order <- c("NC", "ENEG", "NASH", "ENEG_NASH")  # 直接使用数据中的因子顺序
+  gene_df$Condition <- factor(gene_df$Condition, levels = group_order)
+  
+  # Step 5: 统计比较：仅比较 "NC" vs "ENEG" 和 "NASH" vs "ENEG_NASH"
+  comparisons_list <- list()
+  
+  if (all(c("NC", "ENEG") %in% gene_df$Condition)) {
+    comparisons_list <- c(comparisons_list, list(c("NC", "ENEG")))
+  } else {
+    warning("NC 和 ENEG 组中有一组样本数不足，无法进行统计检验。")
+  }
+  
+  if (all(c("NASH", "ENEG_NASH") %in% gene_df$Condition)) {
+    comparisons_list <- c(comparisons_list, list(c("NASH", "ENEG_NASH")))
+  } else {
+    warning("NASH 和 ENEG_NASH 组中有一组样本数不足，无法进行统计检验。")
+  }
+  
+  # Step 6: 设置颜色映射  
+  # 填充色统一为白色；边框颜色使用全局函数 myplotColors 返回的颜色集合
+  custom_colors_fill <- setNames(rep("white", length(group_order)), group_order)
+  custom_colors_color <- setNames(getplotColors(length(group_order)), group_order)
+  
+  # Step 7: 绘制箱线图
+  p <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition, color = Condition)) +
+    geom_boxplot(outlier.shape = NA) +
+    scale_fill_manual(values = custom_colors_fill) +
+    scale_color_manual(values = custom_colors_color)
+  
+  # Step 8: 添加统计检验（仅对 "NC" vs "ENEG" 和 "NASH" vs "ENEG_NASH" 进行 t 检验）
+  if (length(comparisons_list) > 0) {
+    p <- p + stat_compare_means(
+      comparisons = comparisons_list,
+      method = "t.test",
+      label = "p.signif"
+    )
+  }
+  
+  # Step 9: 添加标题和主题
+  p <- p + labs(
+    title = paste("GSE274114"),
+    x = group_var,
+    y = "Expression Level"
+  ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  return(p)
+}
+
+# 
+load("~/R/RNA/data/NASH/GSE288077/Human/Data_GSE288077.RData")
+analyze_gene_expression_GSE288077_Human <- function(GeneX, vsd, colData) {
+  # Step 1: 直接检查基因是否存在于表达矩阵
+  if (!(GeneX %in% rownames(vsd))) {
+    stop("目标基因不存在于表达矩阵中，请检查数据是否包含该基因。")
+  }
+  
+  # Step 2: 获取目标基因的表达值
+  gene_expression <- assay(vsd)[GeneX, ]
+  gene_df <- data.frame(
+    Expression = gene_expression,
+    Condition = colData$condition  # 直接使用 colData$condition
+  )
+  # Step 5: 固定分组顺序：这里设定顺序为 "NC", "NASH", "Obese"
+  group_order <- c("ENEG", "ENEG_NASH")
+  # Step 3: 绘制箱线图
+  # 填充色统一为白色；边框颜色使用全局函数 myplotColors 返回的颜色集合
+  custom_colors_fill <- setNames(rep("white", length(group_order)), group_order)
+  custom_colors_color <- setNames(getplotColors(length(group_order)), group_order)
+  plot <- ggplot(gene_df, aes(x = Condition, y = Expression, fill = Condition)) +
+    geom_boxplot(outlier.shape = NA, aes(color = Condition)) +  # 边框颜色根据 Condition 设置
+    scale_fill_manual(values = custom_colors_fill) +  # 自定义填充颜色
+    scale_color_manual(values = custom_colors_color) +  # 自定义边框颜色
+    stat_compare_means(comparisons = list(c("ENEG", "ENEG_NASH")), 
+                       method = "t.test", 
+                       label = "p.signif") +  # 仅比较 ENEG 与 ENEG_NASH
+    labs(
+      title = paste("GSE288077"),
+      x = "Condition",
+      y = "Expression Level"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none"
+    )
+  
+  # 返回绘图
+  return(plot)
+}
+
 
 
 
@@ -2134,70 +3250,113 @@ server <- function(input, output, session) {
   
   # 定义分析函数
   analyze_nafld_singlegene <- function(Gene) {
+    
+    # 统一格式化 ggplot 主题
     modify_plot <- function(plot) {
-      plot + labs(x = NULL) + 
-        theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))
+      plot + theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))+ labs(x = NULL)
     }
     
-    plots <- list(
-      plot_GSE130970 = analyze_gene_expression_GSE130970(Gene, vsd_nafld_GSE130970, colData_GSE130970, "nafld"),
-      plot_GSE89632 = analyze_gene_expression_GSE89632(Gene, Illumina_GSE89632, colData_GSE89632, "nafld"),
-      plot_GSE48452 = analyze_gene_expression_GSE48452(Gene, Affymetrix_GSE48452, colData_GSE48452, "nas"),
-      plot_GSE135251 = analyze_gene_expression_GSE135251(Gene, vsd_nas_GSE135251, colData_GSE135251, "nas"),
-      plot_GSE174478 = analyze_gene_expression_GSE174478(Gene, vsd_nafld_GSE174478, colData_GSE174478, "nafld"),
-      plot_GSE185051 = analyze_gene_expression_GSE185051(Gene, vsd_nas_GSE185051, colData_GSE185051, "nas"),
-      plot_GSE193066 = analyze_gene_expression_GSE193066(Gene, vsd_nafld_GSE193066, colData_GSE193066, "nafld"),
-      plot_GSE193080 = analyze_gene_expression_GSE193080(Gene, vsd_nafld_GSE193080, colData_GSE193080, "nafld"),
-      plot_GSE207310 = analyze_gene_expression_GSE207310(Gene, vsd_nafld_GSE207310, colData_GSE207310, "nafld"),
-      plot_GSE246221 = analyze_gene_expression_GSE246221(Gene, vsd_nafld_GSE246221, colData_GSE246221, "nafld"),
-      plot_GSE225740 = analyze_gene_expression_GSE225740(Gene, vsd_nas_GSE225740, colData_GSE225740, "nas")
+    # 数据集列表
+    datasets <- list(
+      GSE130970 = list(data = vsd_nafld_GSE130970, colData = colData_GSE130970, func = analyze_gene_expression_GSE130970, group = "nafld"),
+      GSE89632  = list(data = Illumina_GSE89632, colData = colData_GSE89632, func = analyze_gene_expression_GSE89632, group = "nafld"),
+      GSE48452  = list(data = Affymetrix_GSE48452, colData = colData_GSE48452, func = analyze_gene_expression_GSE48452, group = "nas"),
+      GSE135251 = list(data = vsd_nas_GSE135251, colData = colData_GSE135251, func = analyze_gene_expression_GSE135251, group = "nas"),
+      GSE174478 = list(data = vsd_nafld_GSE174478, colData = colData_GSE174478, func = analyze_gene_expression_GSE174478, group = "nafld"),
+      GSE185051 = list(data = vsd_nas_GSE185051, colData = colData_GSE185051, func = analyze_gene_expression_GSE185051, group = "nas"),
+      GSE193066 = list(data = vsd_nafld_GSE193066, colData = colData_GSE193066, func = analyze_gene_expression_GSE193066, group = "nafld"),
+      GSE193080 = list(data = vsd_nafld_GSE193080, colData = colData_GSE193080, func = analyze_gene_expression_GSE193080, group = "nafld"),
+      GSE207310 = list(data = vsd_nafld_GSE207310, colData = colData_GSE207310, func = analyze_gene_expression_GSE207310, group = "nafld"),
+      GSE246221 = list(data = vsd_nafld_GSE246221, colData = colData_GSE246221, func = analyze_gene_expression_GSE246221, group = "nafld"),
+      GSE225740 = list(data = vsd_nas_GSE225740, colData = colData_GSE225740, func = analyze_gene_expression_GSE225740, group = "nas")
     )
     
-    # 使用 patchwork 为所有组合图像添加大标题
-    combined_plot <- plot_grid(plotlist = plots, ncol = 4) + 
-      plot_annotation(title = paste("Expression of the ",Gene, " in NAFLD Score"), 
-                      theme = theme(plot.title = element_text(hjust = 0.5, size = 30, face = "bold",margin = margin(b = 20))))
+    # 处理所有数据集，捕获可能的错误
+    plots <- lapply(names(datasets), function(name) {
+      dataset <- datasets[[name]]
+      tryCatch({
+        plot <- dataset$func(Gene, dataset$data, dataset$colData, dataset$group)
+        modify_plot(plot) # 统一格式化
+      }, error = function(e) {
+        message(paste("跳过", name, "数据集，错误:", e$message))
+        NULL  # 遇到错误时返回 NULL，避免影响整个流程
+      })
+    })
+    
+    # 过滤掉 NULL 结果
+    plots <- Filter(Negate(is.null), plots)
+    
+    # 组合所有的图（4 列布局）
+    combined_plot <- wrap_plots(plots, ncol = 4) + 
+      plot_annotation(
+        title = paste("Expression of", Gene, "in NAFLD Score"),
+        theme = theme(
+          plot.title = element_text(hjust = 0.5, size = 30, face = "bold", margin = margin(b = 20))
+        )
+      )
     
     return(combined_plot)
   }
+  
   
   analyze_fibrosis_singlegene <- function(Gene) {
+    
+    # 统一格式化 ggplot 主题
     modify_plot <- function(plot) {
-      plot + labs(x = NULL) + 
-        theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))
+      plot + theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))+ labs(x = NULL)
     }
-    plots <- list(
-      plot_GSE130970 = analyze_gene_expression_GSE130970(Gene, vsd_fibrosis_GSE130970, colData_GSE130970, "fibrosis"),
-      plot_GSE89632 = analyze_gene_expression_GSE89632(Gene, Illumina_GSE89632, colData_GSE89632, "fibrosis"),
-      plot_GSE48452 = analyze_gene_expression_GSE48452(Gene, Affymetrix_GSE48452, colData_GSE48452, "fibrosis"),
-      plot_GSE135251 = analyze_gene_expression_GSE135251(Gene, vsd_fibrosis_GSE135251, colData_GSE135251, "fibrosis"),
-      plot_GSE174478 = analyze_gene_expression_GSE174478(Gene, vsd_fibrosis_GSE174478, colData_GSE174478, "fibrosis"),
-      plot_GSE185051 = analyze_gene_expression_GSE185051(Gene, vsd_fibrosis_GSE185051, colData_GSE185051, "fibrosis"),
-      plot_GSE193066 = analyze_gene_expression_GSE193066(Gene, vsd_fibrosis_GSE193066, colData_GSE193066, "fibrosis"),
-      plot_GSE193080 = analyze_gene_expression_GSE193080(Gene, vsd_fibrosis_GSE193080, colData_GSE193080, "fibrosis"),
-      plot_GSE207310 = analyze_gene_expression_GSE207310(Gene, vsd_fibrosis_GSE207310, colData_GSE207310, "fibrosis"),
-      plot_GSE246221 = analyze_gene_expression_GSE246221(Gene, vsd_fibrosis_GSE246221, colData_GSE246221, "fibrosis"),
-      plot_GSE225740 = analyze_gene_expression_GSE225740(Gene, vsd_fibrosis_GSE225740, colData_GSE225740, "fibrosis")
+    
+    # 数据集列表
+    datasets <- list(
+      GSE130970 = list(data = vsd_fibrosis_GSE130970, colData = colData_GSE130970, func = analyze_gene_expression_GSE130970, group = "fibrosis"),
+      GSE89632  = list(data = Illumina_GSE89632, colData = colData_GSE89632, func = analyze_gene_expression_GSE89632, group = "fibrosis"),
+      GSE48452  = list(data = Affymetrix_GSE48452, colData = colData_GSE48452, func = analyze_gene_expression_GSE48452, group = "fibrosis"),
+      GSE135251 = list(data = vsd_fibrosis_GSE135251, colData = colData_GSE135251, func = analyze_gene_expression_GSE135251, group = "fibrosis"),
+      GSE174478 = list(data = vsd_fibrosis_GSE174478, colData = colData_GSE174478, func = analyze_gene_expression_GSE174478, group = "fibrosis"),
+      GSE185051 = list(data = vsd_fibrosis_GSE185051, colData = colData_GSE185051, func = analyze_gene_expression_GSE185051, group = "fibrosis"),
+      GSE193066 = list(data = vsd_fibrosis_GSE193066, colData = colData_GSE193066, func = analyze_gene_expression_GSE193066, group = "fibrosis"),
+      GSE193080 = list(data = vsd_fibrosis_GSE193080, colData = colData_GSE193080, func = analyze_gene_expression_GSE193080, group = "fibrosis"),
+      GSE207310 = list(data = vsd_fibrosis_GSE207310, colData = colData_GSE207310, func = analyze_gene_expression_GSE207310, group = "fibrosis"),
+      GSE246221 = list(data = vsd_fibrosis_GSE246221, colData = colData_GSE246221, func = analyze_gene_expression_GSE246221, group = "fibrosis"),
+      GSE225740 = list(data = vsd_fibrosis_GSE225740, colData = colData_GSE225740, func = analyze_gene_expression_GSE225740, group = "fibrosis")
     )
     
-    # 使用 patchwork 为所有组合图像添加大标题
-    combined_plot <- plot_grid(plotlist = plots, ncol = 4) + 
-      plot_annotation(title = paste("Expression of the ",Gene, " in Fibrosis Stages"), 
-                      theme = theme(plot.title = element_text(hjust = 0.5, size = 30, face = "bold",margin = margin(b = 20))))
+    # 处理所有数据集，捕获可能的错误
+    plots <- lapply(names(datasets), function(name) {
+      dataset <- datasets[[name]]
+      tryCatch({
+        plot <- dataset$func(Gene, dataset$data, dataset$colData, dataset$group)
+        modify_plot(plot) # 统一格式化
+      }, error = function(e) {
+        message(paste("跳过", name, "数据集，错误:", e$message))
+        NULL  # 遇到错误时返回 NULL，避免影响整个流程
+      })
+    })
+    
+    # 过滤掉 NULL 结果
+    plots <- Filter(Negate(is.null), plots)
+    
+    # 组合所有的图（4 列布局）
+    combined_plot <- wrap_plots(plots, ncol = 4) + 
+      plot_annotation(
+        title = paste("Expression of", Gene, "in Fibrosis Stages"),
+        theme = theme(
+          plot.title = element_text(hjust = 0.5, size = 30, face = "bold", margin = margin(b = 20))
+        )
+      )
     
     return(combined_plot)
   }
   
+
   analyze_classification_singlegene <- function(Gene) {
+    
+    # 统一格式化 ggplot 主题
     modify_plot <- function(plot) {
-      plot + labs(x = NULL) + 
-        theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))
+      plot + theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))+ labs(x = NULL)
     }
     
-    # 创建一个空列表用于保存图形
-    plots <- list()
-    
-    # 使用 tryCatch 捕获每个数据集的错误
+    # 数据集列表
     datasets <- list(
       GSE24807 = list(data = codelink_GSE24807, colData = colData_GSE24807, func = analyze_gene_expression_GSE24807),
       GSE37031 = list(data = Affymetrix_GSE37031, colData = colData_GSE37031, func = analyze_gene_expression_GSE37031),
@@ -2205,27 +3364,69 @@ server <- function(input, output, session) {
       GSE134146 = list(data = Arraystar_GSE134146, colData = colData_GSE134146, func = analyze_gene_expression_GSE134146),
       GSE159676 = list(data = Affymetrix__GSE159676, colData = colData_GSE159676, func = analyze_gene_expression_GSE159676),
       GSE147304 = list(data = vsd_GSE147304, colData = colData_GSE147304, func = analyze_gene_expression_GSE147304),
-      GSE173735 = list(data = vsd_GSE173735, colData = colData_GSE173735, func = analyze_gene_expression_GSE173735)
+      GSE173735 = list(data = vsd_GSE173735, colData = colData_GSE173735, func = analyze_gene_expression_GSE173735),
+      GSE83452 = list(data = Affymetrix_GSE83452, colData = colData_GSE83452, func = analyze_gene_expression_GSE83452),
+      GSE167523 = list(data = vsd_GSE167523, colData = colData_GSE167523, func = analyze_gene_expression_GSE167523),
+      GSE288077 = list(data = vsd_GSE288077_Human, colData = colData_GSE288077_Human, func = analyze_gene_expression_GSE288077_Human),
+      GSE89632 = list(data = Illumina_GSE89632, colData = colData_GSE89632, func = analyze_gene_expression_GSE89632, group = "condition"),
+      GSE63067 = list(data = Affymetrix_GSE63067, colData = colData_GSE63067, func = analyze_gene_expression_GSE63067),
+      GSE115193 = list(data = vsd_GSE115193, colData = colData_GSE115193, func = analyze_gene_expression_GSE115193),
+      GSE260666 = list(data = vsd_GSE260666, colData = colData_GSE260666, func = analyze_gene_expression_GSE260666),
+      GSE135251 = list(data = vsd_level_GSE135251, colData = colData_GSE135251, func = analyze_gene_expression_GSE135251, group = "level"),
+      GSE207310 = list(data = vsd_level_GSE207310, colData = colData_GSE207310, func = analyze_gene_expression_GSE207310, group = "level"),
+      GSE61260 = list(data = Affymetrix_GSE61260, colData = colData_GSE61260, func = analyze_gene_expression_GSE61260),
+      GSE66676 = list(data = Affymetrix_GSE66676, colData = colData_GSE66676, func = analyze_gene_expression_GSE66676),
+      GSE126848 = list(data = vsd_GSE126848, colData = colData_GSE126848, func = analyze_gene_expression_GSE126848),
+      GSE274114 = list(data = vsd_GSE274114, colData = colData_GSE274114, func = analyze_gene_expression_GSE274114),
+      GSE48452 = list(data = Affymetrix_GSE48452, colData = colData_GSE48452, func = analyze_gene_expression_GSE48452, group = "condition"),
+      GSE185051 = list(data = vsd_level_GSE185051, colData = colData_GSE185051, func = analyze_gene_expression_GSE185051, group = "level"),
+      GSE164760 = list(data = affy_GSE164760, colData = colData_GSE164760, func = analyze_gene_expression_GSE164760),
+      GSE105127 = list(data = vsd_GSE105127, colData = colData_GSE105127, func = analyze_gene_expression_GSE105127)
+      
     )
     
-    for (dataset in names(datasets)) {
+    # 处理所有数据集，捕获可能的错误
+    plots <- lapply(names(datasets), function(name) {
+      dataset <- datasets[[name]]
       tryCatch({
-        # 尝试调用分析函数，如果成功则保存图形
-        plot <- datasets[[dataset]]$func(Gene, datasets[[dataset]]$data, datasets[[dataset]]$colData)
-        plots[[paste0("plot_", dataset)]] <- modify_plot(plot)
+        plot <- if ("group" %in% names(dataset)) {
+          dataset$func(Gene, dataset$data, dataset$colData, dataset$group)
+        } else {
+          dataset$func(Gene, dataset$data, dataset$colData)
+        }
+        modify_plot(plot) # 统一格式化
       }, error = function(e) {
-        # 如果遇到错误，打印错误信息并跳过当前图
-        message(paste("跳过", dataset, "数据集，错误:", e$message))
+        message(paste("跳过", name, "数据集，错误:", e$message))
+        NULL  # 遇到错误时返回 NULL，避免影响整个流程
       })
-    }
+    })
     
-    # 使用 patchwork 为所有组合图像添加大标题
-    combined_plot <- plot_grid(plotlist = plots, ncol = 3) + 
-      plot_annotation(title = paste("Expression of the ", Gene, " in Classification"), 
-                      theme = theme(plot.title = element_text(hjust = 0.5, size = 30, face = "bold", margin = margin(b = 20))))
+    # 过滤掉 NULL 结果
+    plots <- Filter(Negate(is.null), plots)
+    
+    # 定义布局
+    design <- c(
+      area(1, 1), area(1, 2), area(1, 3), area(1, 4), area(1, 5), area(1, 6), area(1, 7), area(1, 8), area(1, 9), area(1, 10), # 第一行：10 张图
+      area(2, 1, 2, 2), area(2, 3, 2, 4), area(2, 5, 2, 6), area(2, 7, 2, 8), area(2, 9, 2, 10), # 第二行：5 张图
+      area(3, 1, 3, 2), area(3, 3, 3, 4), area(3, 5, 3, 6), area(3, 7, 3, 8), area(3, 9, 3, 10), # 第三行：5 张图
+      area(4, 1, 4, 2), area(4, 3, 4, 4), area(4, 5, 4, 7), area(4, 8, 4, 10) # 第四行：4 张图
+    )
+    
+    # 组合所有的图
+    combined_plot <- wrap_plots(plots) + plot_layout(design = design)
+    
+    # 添加标题
+    combined_plot <- combined_plot + 
+      plot_annotation(
+        title = paste("Expression of", Gene, "in Classification"),
+        theme = theme(
+          plot.title = element_text(hjust = 0.5, size = 30, face = "bold", margin = margin(b = 20))
+        )
+      )
     
     return(combined_plot)
   }
+  
   
   # 监听基因输入并更新图表
   observeEvent(input$update, {
@@ -2243,7 +3444,7 @@ server <- function(input, output, session) {
     
     output$combined_plot <- renderPlot({
       combined_plot
-    }, height = 1000 , width = 1200 )
+    }, height = 1200 , width = 1400 )
   })
 }
 
