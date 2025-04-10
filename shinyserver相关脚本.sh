@@ -2,8 +2,7 @@
 sudo cp ui.R server.R /srv/shiny-server/myapp/
 
 # 查看日志
-ls -lt /var/log/shiny-server/myapp-*.log | head -n 1
-tail -f /var/log/shiny-server/myapp-shiny-20250409-135153-39289.log
+tail -f $(ls -t /var/log/shiny-server/myapp-*.log | head -n 1)
 
 # 重启shiny-server
 sudo systemctl restart shiny-server
