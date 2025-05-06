@@ -6,3 +6,7 @@ tail -f $(ls -t /var/log/shiny-server/myapp-*.log | head -n 1)
 
 # 重启shiny-server
 sudo systemctl restart shiny-server
+
+## 网站维护
+# 防火墙状态
+sudo tail -n 100 /var/log/nginx/access.log
